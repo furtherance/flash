@@ -14,23 +14,6 @@ class FlashServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->bind(
-            'Laracasts\Flash\SessionStore',
-            'Laracasts\Flash\LaravelSessionStore'
-        );
-
-        $this->app->singleton('flash', function () {
-            return $this->app->make('Laracasts\Flash\FlashNotifier');
-        });
-    }
-
-    /**
      * Bootstrap the application events.
      *
      * @return void
@@ -42,6 +25,29 @@ class FlashServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../views' => base_path('resources/views/vendor/flash')
         ]);
+    
+        $this->publishes([
+            __DIR__.'/../../config/flash.php' => base_path('config/helo.php'),
+        ], 'config');
+    }
+    
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/flash.php', 'flash');
+        
+        $this->app->bind(
+            'Laracasts\Flash\SessionStore',
+            'Laracasts\Flash\LaravelSessionStore'
+        );
+        
+        $this->app->singleton('flash', function () {
+            return $this->app->make('Laracasts\Flash\FlashNotifier');
+        });
     }
 
 }
