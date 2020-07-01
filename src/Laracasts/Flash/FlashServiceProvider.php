@@ -27,7 +27,7 @@ class FlashServiceProvider extends ServiceProvider
         ]);
     
         $this->publishes([
-            __DIR__.'/../../config/flash.php' => base_path('config/helo.php'),
+            __DIR__.'/../../../config/flash.php' => base_path('config/helo.php'),
         ], 'config');
     }
     
@@ -38,7 +38,7 @@ class FlashServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/flash.php', 'flash');
+        $this->mergeConfigFrom(__DIR__.'/../../../config/flash.php', 'flash');
         
         $this->app->bind(
             'Laracasts\Flash\SessionStore',
